@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import PaysManager from "./container/PaysManager/PaysManager";
+import Erreur from "./components/Erreur/Erreur";
+import Erreur404 from "./components/Erreur/Erreur404/Erreur404";
+import NavBar from "./components/NavBar/NavBar";
+import NavBar2 from "./components/NavBar/NavBar2";
+import "./App.css"
+import UnPays from "./container/UnPays/UnPays";
+import "bootswatch/dist/cerulean/bootstrap.min.css";
+import LePays from "./container/PaysManager/LePays/LePays";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+    render() {
+        return (
+            <BrowserRouter>
+              <NavBar2/>
+              <Switch>
+                  <Route path={"/"} exact render={()=><h1>Page d'acceuil</h1>}/>
+                  <Route path={"/pays"} exact component={PaysManager}/>
+                  <Route path={"/pays/:id"}  render={(props)=>{
+                      console.log(props)
+                        return <UnPays nomPays={props.match.params.id} {...props}/>}
+                    }/>
+                  <Route render={()=><Erreur>
+                     <Erreur404/>
+                  </Erreur>}/>
+              </Switch>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;
